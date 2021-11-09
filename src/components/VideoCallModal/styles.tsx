@@ -21,7 +21,7 @@ export default StyleSheet.create({
   },
   header: {
     marginTop: isIOS ? hd('5%') : hd('2%'),
-    paddingRight: wd('5%'),
+    paddingRight: wd('4%'),
   },
   container: {
     // zIndex: 9,
@@ -39,8 +39,8 @@ export default StyleSheet.create({
     paddingHorizontal: wd('15%'),
   },
   button: {
-    width: wd('15%'),
-    height: wd('15%'),
+    width: wd('12%'),
+    height: wd('12%'),
     borderRadius: 100,
   },
 });
