@@ -6,6 +6,7 @@ import RecentItem from '@/components/RecentItem';
 import navigationService from '@/services/navigationService';
 import {useDispatch} from 'react-redux';
 import {callingType, SET_CALLING} from '@/store/types';
+import FAB from '@/components/FAB';
 
 interface RecentTabProps {}
 
@@ -258,7 +259,7 @@ const RecentTab: React.FC<RecentTabProps> = () => {
     <>
       <UI.Layout noScroll style={{paddingHorizontal: 0}}>
         <FlatList
-          ListHeaderComponent={<UI.Spacer />}
+          ListHeaderComponent={<UI.Spacer medium />}
           ListFooterComponent={<UI.Spacer size={30} />}
           data={contacts.sort((a, b) => a.timestamp - b.timestamp)}
           keyExtractor={item => item.id}
@@ -286,6 +287,8 @@ const RecentTab: React.FC<RecentTabProps> = () => {
           )}
         />
       </UI.Layout>
+
+      <FAB name="keypad" onClick={() => navigationService.navigate('Dialer')} />
     </>
   );
 };

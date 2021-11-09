@@ -9,6 +9,7 @@ interface PopProps extends ViewProps {
   speed?: number;
   style?: any;
   onClick?: (() => void) | undefined;
+  onLongPress?: () => void;
 }
 
 interface PopState {
@@ -56,7 +57,7 @@ class Pop extends React.Component<PopProps, PopState> {
     animate.setValue(from);
   };
   render() {
-    const {children, style, onClick} = this.props;
+    const {children, style, onClick, onLongPress} = this.props;
     const {animate} = this.state;
 
     const animStyle = {
@@ -73,6 +74,8 @@ class Pop extends React.Component<PopProps, PopState> {
         <UI.Clickable
           onPressIn={this.onPressIn}
           onPressOut={this.onPressOut}
+          onLongPress={onLongPress}
+          delayLongPress={1500}
           onClick={onClick}>
           {children}
         </UI.Clickable>

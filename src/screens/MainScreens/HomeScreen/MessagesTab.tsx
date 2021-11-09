@@ -6,6 +6,7 @@ import MessageItem from '@/components/MessageItem';
 import navigationService from '@/services/navigationService';
 import {useDispatch} from 'react-redux';
 import {callingType, SET_CALLING} from '@/store/types';
+import FAB from '@/components/FAB';
 
 interface MessagesTabProps {}
 
@@ -186,7 +187,7 @@ const MessagesTab: React.FC<MessagesTabProps> = () => {
     <>
       <UI.Layout noScroll style={{paddingHorizontal: 0}}>
         <FlatList
-          ListHeaderComponent={<UI.Spacer />}
+          ListHeaderComponent={<UI.Spacer medium />}
           ListFooterComponent={<UI.Spacer size={30} />}
           data={messages.sort((a, b) => a.timestamp - b.timestamp)}
           keyExtractor={item => item.id}
@@ -210,6 +211,8 @@ const MessagesTab: React.FC<MessagesTabProps> = () => {
           )}
         />
       </UI.Layout>
+
+      <FAB name="pencil-sharp" />
     </>
   );
 };

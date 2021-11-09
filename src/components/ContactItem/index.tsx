@@ -6,31 +6,53 @@ import {heightPercentageToDP as hd} from 'react-native-responsive-screen';
 import OptionsMenu from '../OptionMenu';
 import * as UI from '../common';
 import styles from './styles';
+import Contacts from 'react-native-contacts';
+import {contactType, SET_CONTACTS} from '@/store/types';
+import {useDispatch, useSelector} from 'react-redux';
+import {IRootState} from '@/store/reducers';
 
-interface ContactItemProps {
+interface ContactItemProps extends contactType {
   image?: string;
-  name?: string;
+  name: string;
   phone: string;
   onClick?: (phone: string) => void;
   onVoiceCall?: (phone: string) => void;
   onVideoCall?: (phone: string) => void;
-  onViewProfile?: (phone: string) => void;
   onBlacklist?: (phone: string) => void;
-  onDelete?: (phone: string) => void;
 }
 
 const ContactItem: React.FC<ContactItemProps> = ({
+  id,
   image,
   name,
   phone,
   onVideoCall,
   onVoiceCall,
-  onViewProfile,
   onBlacklist,
-  onDelete,
 }) => {
   const {colors} = useTheme();
+  const dispatch = useDispatch();
+  const {contacts} = useSelector((state: IRootState) => state);
 
+  const handleOpenContact = async (id: string) => {
+    const res = await Contacts.getContactById(id);
+    Contacts.openExistingContact(res);
+  };
+
+  const handleDeleteContact = async (id: string) => {
+    try {
+      const res = await Contacts.getContactById(id);
+      await Contacts.deleteContact(res);
+      dispatch({
+        type: SET_CONTACTS,
+        payload: contacts.filter(c => c.id !== id),
+      });
+    } catch (e: any) {
+      console.log(e);
+    }
+  };
+
+  console.log(phone);
   return (
     <UI.Block justify="space-between" style={styles.contactContainer}>
       <OptionsMenu
@@ -67,11 +89,11 @@ const ContactItem: React.FC<ContactItemProps> = ({
           'Cancel',
         ]}
         actions={[
-          onVoiceCall?.bind(null, phone),
+          onVoiceCall?.bind(null, phone) as any,
           onVideoCall?.bind(null, phone),
-          onViewProfile?.bind(null, phone),
+          handleOpenContact.bind(null, id),
           onBlacklist?.bind(null, phone),
-          onDelete?.bind(null, phone),
+          handleDeleteContact.bind(null, id),
         ]}
       />
     </UI.Block>

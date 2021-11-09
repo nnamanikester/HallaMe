@@ -13,14 +13,6 @@ export default StyleSheet.create({
     paddingHorizontal: wd('10%'),
     borderTopEndRadius: wd('5%'),
     borderTopLeftRadius: wd('5%'),
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.22,
-    shadowRadius: 2.22,
-    elevation: 3,
   },
   key: {
     borderWidth: 1,

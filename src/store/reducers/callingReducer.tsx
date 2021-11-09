@@ -17,7 +17,7 @@ export default (state = INITIAL_STATE, action: callingActionsType) => {
     case SET_CALL_TYPE:
       return {...state, type: action.payload};
     case SET_SHOW_SCREEN:
-      return {...state, type: action.payload};
+      return {...state, showScreen: action.payload};
     default:
       return state;
   }

@@ -80,7 +80,7 @@ const MessageItem: React.FC<MessageItemProps> = ({
         ]}
       />
 
-      <UI.Text color={colors.gray2} size={hd('1%')}>
+      <UI.Text color={colors.gray2} size={hd('1.2%')}>
         {moment(timestamp).calendar({
           lastDay: '[Yesterday,] LT',
           sameDay: 'LT',

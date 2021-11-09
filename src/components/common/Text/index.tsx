@@ -70,8 +70,8 @@ export const Text: React.FC<TextProps> = React.forwardRef((props, ref) => {
     textStyle.lineHeight = isIOS ? hd('3%') : hd('4.9%');
     textStyle.fontFamily = 'Gordita-Medium';
   } else if (note) {
-    textStyle.color = colors.gray2;
-    textStyle.fontSize = isIOS ? hd('1.5%') : hd('1.9%');
+    textStyle.color = colors.gray3;
+    textStyle.fontSize = isIOS ? hd('1.3%') : hd('1.9%');
     textStyle.lineHeight = isIOS ? hd('2%') : hd('2.4%');
   } else if (size) {
     textStyle.fontSize = size;
@@ -89,9 +89,7 @@ export const Text: React.FC<TextProps> = React.forwardRef((props, ref) => {
   }
 
   if (bold) {
-    textStyle.fontFamily = 'Gordita-Bold';
-    textStyle.fontSize = isIOS ? hd('1.5%') : hd('1.8%');
-    textStyle.lineHeight = isIOS ? hd('2.4%') : hd('3%');
+    textStyle.fontFamily = 'Gordita-Medium';
   }
 
   return gradColors ? (

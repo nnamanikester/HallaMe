@@ -12,6 +12,7 @@ import ContactsTab from './ContactsTab';
 import RecentTab from './RecentTab';
 import MessagesTab from './MessagesTab';
 import VoiceMailTab from './VoiceMailTab';
+import navigationService from '@/services/navigationService';
 
 const TopTab = createMaterialTopTabNavigator();
 
@@ -132,7 +133,10 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
                   />
                 }
                 options={['Settings', 'Help', 'Cancel']}
-                actions={[() => {}, () => {}]}
+                actions={[
+                  () => navigationService.navigate('Settings'),
+                  () => {},
+                ]}
               />
             </UI.Block>
           </UI.Block>

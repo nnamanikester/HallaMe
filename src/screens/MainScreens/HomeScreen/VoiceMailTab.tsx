@@ -5,6 +5,8 @@ import {VoiceMail} from './types';
 import {useDispatch} from 'react-redux';
 import {callingType, SET_CALLING} from '@/store/types';
 import VoiceMailComp from '@/components/VoiceMail';
+import FAB from '@/components/FAB';
+import navigationService from '@/services/navigationService';
 
 interface VoiceMailTabProps {}
 
@@ -213,7 +215,7 @@ const VoiceMailTab: React.FC<VoiceMailTabProps> = () => {
     <>
       <UI.Layout noScroll style={{paddingHorizontal: 0}}>
         <FlatList
-          ListHeaderComponent={<UI.Spacer />}
+          ListHeaderComponent={<UI.Spacer medium />}
           ListFooterComponent={<UI.Spacer size={30} />}
           data={mails.sort((a, b) => a.timestamp - b.timestamp)}
           keyExtractor={item => item.id}
@@ -229,6 +231,8 @@ const VoiceMailTab: React.FC<VoiceMailTabProps> = () => {
           )}
         />
       </UI.Layout>
+
+      <FAB name="keypad" onClick={() => navigationService.navigate('Dialer')} />
     </>
   );
 };

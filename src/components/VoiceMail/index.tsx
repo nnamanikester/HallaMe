@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {Image} from 'react-native';
+import {Image, LayoutAnimation, Platform, UIManager} from 'react-native';
 import * as UI from '../common';
 import moment from 'moment';
 import OptionMenu from '../OptionMenu';
@@ -12,6 +12,14 @@ import Slider from 'react-native-reanimated-slider';
 import {Value} from 'react-native-reanimated';
 import {useTheme} from '@/contexts/ThemeContext';
 import styles from './styles';
+
+const isIOS = Platform.OS === 'ios';
+
+if (Platform.OS === 'android') {
+  if (UIManager.setLayoutAnimationEnabledExperimental) {
+    UIManager.setLayoutAnimationEnabledExperimental(true);
+  }
+}
 
 interface VoiceMailProps {
   name?: string;
@@ -44,6 +52,10 @@ const VoiceMail: React.FC<VoiceMailProps> = ({
   const [expanded, setExpanded] = React.useState(false);
   const [playing, setPlaying] = React.useState(false);
   const [currentValue] = React.useState(0);
+
+  React.useEffect(() => {
+    LayoutAnimation.easeInEaseOut();
+  }, [expanded]);
 
   const [currentTime] = React.useState(new Value(currentValue));
   const [seekableDuration] = React.useState(new Value(duration));

@@ -1,6 +1,7 @@
 import 'intl';
 import 'intl/locale-data/jsonp/en';
 import parsePhoneNumber from 'libphonenumber-js';
+import {Contact} from 'react-native-contacts';
 
 export const formatMoney = (amount: string) => {
   const formatType = new Intl.NumberFormat('en-US', {
@@ -58,7 +59,7 @@ export const msToTime = (s: number, hasHours?: boolean) => {
 };
 
 export const formatPhone = (phone: string) => {
-  return parsePhoneNumber(phone)?.formatInternational();
+  return parsePhoneNumber(phone)?.formatInternational() || phone;
 };
 
 export const sortString = (a: string, b: string) => {
@@ -69,4 +70,15 @@ export const sortString = (a: string, b: string) => {
     return 1;
   }
   return 0;
+};
+
+export const formatContact = (contact: Contact) => {
+  return {
+    id: contact.recordID,
+    name: `${contact.givenName} ${contact.familyName}`,
+    phone: contact.phoneNumbers.filter(p => p.label !== 'mobile' || 'main')[0]
+      .number,
+    image: contact.thumbnailPath,
+    isHallaMeUser: true, // Check if the user is a halla me user.
+  };
 };
