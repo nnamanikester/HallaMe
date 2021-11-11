@@ -3,7 +3,8 @@ import React from 'react';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {Provider} from 'react-redux';
 import NavigationFlow from '@/navigation';
-import {ThemeProvider, ThemeContext} from '@/contexts/ThemeContext';
+import {ThemeProvider} from '@/contexts/ThemeContext';
+import {ToastProvider} from 'react-native-toast-notifications';
 import {store} from './store';
 
 interface AppProps {}
@@ -19,7 +20,9 @@ const App: React.FC<AppProps> = () => {
     <SafeAreaProvider>
       <Provider store={store}>
         <ThemeProvider>
-          <NavigationFlow />
+          <ToastProvider>
+            <NavigationFlow />
+          </ToastProvider>
         </ThemeProvider>
       </Provider>
     </SafeAreaProvider>

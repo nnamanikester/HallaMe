@@ -10,6 +10,8 @@ import Contacts from 'react-native-contacts';
 import {contactType, SET_CONTACTS} from '@/store/types';
 import {useDispatch, useSelector} from 'react-redux';
 import {IRootState} from '@/store/reducers';
+import {useToast} from 'react-native-toast-notifications';
+import Clipboard from '@react-native-clipboard/clipboard';
 
 interface ContactItemProps extends contactType {
   image?: string;
@@ -33,6 +35,7 @@ const ContactItem: React.FC<ContactItemProps> = ({
   const {colors} = useTheme();
   const dispatch = useDispatch();
   const {contacts} = useSelector((state: IRootState) => state);
+  const toast = useToast();
 
   const handleOpenContact = async (id: string) => {
     const res = await Contacts.getContactById(id);
@@ -50,6 +53,11 @@ const ContactItem: React.FC<ContactItemProps> = ({
     } catch (e: any) {
       console.log(e);
     }
+  };
+
+  const handleCopyNumber = (phone: string) => {
+    Clipboard.setString(phone);
+    toast.show('Copied to clipboard!');
   };
 
   console.log(phone);
@@ -79,10 +87,11 @@ const ContactItem: React.FC<ContactItemProps> = ({
             </UI.Block>
           </UI.Block>
         }
-        destructiveIndex={4}
+        destructiveIndex={5}
         options={[
           'Voice Call',
           'Video Call',
+          'Copy Number',
           'View Profile',
           'Add to Blacklist',
           'Delete',
@@ -91,6 +100,7 @@ const ContactItem: React.FC<ContactItemProps> = ({
         actions={[
           onVoiceCall?.bind(null, phone) as any,
           onVideoCall?.bind(null, phone),
+          handleCopyNumber.bind(null, phone),
           handleOpenContact.bind(null, id),
           onBlacklist?.bind(null, phone),
           handleDeleteContact.bind(null, id),

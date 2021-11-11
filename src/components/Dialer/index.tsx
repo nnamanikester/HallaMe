@@ -5,6 +5,8 @@ import styles from './styles';
 import {heightPercentageToDP as hd} from 'react-native-responsive-screen';
 import {Pop} from '@/animations';
 import {formatPhone} from '@/utils';
+import Clipboard from '@react-native-clipboard/clipboard';
+import {findPhoneNumbersInText} from 'libphonenumber-js';
 
 interface DialerProps {
   onChangeValue?: (val: string) => void;
@@ -22,6 +24,13 @@ const Dialer: React.FC<DialerProps> = ({
 }) => {
   const {colors} = useTheme();
   const [value, setValue] = React.useState('');
+  const [clipboaordHasString, setClipboardHasString] = React.useState(false);
+
+  React.useEffect(() => {
+    (async () => {
+      setClipboardHasString(await Clipboard.hasString());
+    })();
+  }, []);
 
   const handleValueChange = (val: string) => {
     if (maxLength && value.length >= maxLength) {
@@ -45,7 +54,14 @@ const Dialer: React.FC<DialerProps> = ({
     return onChangeValue && onChangeValue('');
   };
 
-  const handlePasteFromClipboard = () => {};
+  const handlePasteFromClipboard = async () => {
+    const data = await Clipboard.getString();
+    let formatted = data.split('');
+    formatted = formatted.filter(s => !isNaN(s as any) || s === '+');
+    const numbers = formatted.join('');
+    setValue(numbers);
+    onChangeValue && onChangeValue(numbers);
+  };
 
   return (
     <>
@@ -62,12 +78,14 @@ const Dialer: React.FC<DialerProps> = ({
             <UI.Spacer />
           </UI.Block>
         ) : (
-          <UI.Block right>
-            <UI.Clickable onClick={handlePasteFromClipboard}>
-              <UI.Icon size={24} name="clipboard-outline" />
-            </UI.Clickable>
-            <UI.Spacer />
-          </UI.Block>
+          clipboaordHasString && (
+            <UI.Block right>
+              <UI.Clickable onClick={handlePasteFromClipboard}>
+                <UI.Icon size={24} name="clipboard-outline" />
+              </UI.Clickable>
+              <UI.Spacer medium />
+            </UI.Block>
+          )
         )}
 
         <UI.Block row justify="space-between">

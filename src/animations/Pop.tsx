@@ -75,7 +75,7 @@ class Pop extends React.Component<PopProps, PopState> {
           onPressIn={this.onPressIn}
           onPressOut={this.onPressOut}
           onLongPress={onLongPress}
-          delayLongPress={1500}
+          delayLongPress={1000}
           onClick={onClick}>
           {children}
         </UI.Clickable>
