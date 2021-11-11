@@ -58,7 +58,7 @@ const DashboardFlow: React.FC<DashboardFlowProps> = () => {
         <Stack.Screen name="Profile" component={ProfileScreen} />
         <Stack.Screen name="Settings" component={SettingsScreen} />
       </Stack.Group>
-      <Stack.Group screenOptions={{presentation: 'transparentModal'}}>
+      <Stack.Group screenOptions={{}}>
         <Stack.Screen name="Dialer" component={DialerScreen} />
       </Stack.Group>
     </Stack.Navigator>

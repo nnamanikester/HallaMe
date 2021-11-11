@@ -74,7 +74,7 @@ const DialerScreen: React.FC<DialerScreenProps> = ({navigation}) => {
 
   const handleStartVideoCall = (phone: string) => {
     const user = contacts.find(c => c.phone === phone);
-    console.log('USER ================> ', user);
+    console.log('Start Video Call USER ================> ', user);
     const payload: callingType = {
       user: user || {phone},
       type: 'VIDEO',
