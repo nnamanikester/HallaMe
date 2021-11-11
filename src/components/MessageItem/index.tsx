@@ -7,6 +7,8 @@ import * as UI from '../common';
 import styles from '../VoiceMail/styles';
 import moment from 'moment';
 import OptionMenu from '../OptionMenu';
+import {useToast} from 'react-native-toast-notifications';
+import Clipboard from '@react-native-clipboard/clipboard';
 
 interface MessageItemProps {
   image?: string;
@@ -34,6 +36,12 @@ const MessageItem: React.FC<MessageItemProps> = ({
   onDelete,
 }) => {
   const {colors} = useTheme();
+  const toast = useToast();
+
+  const handleCopyNumber = async (phone: string) => {
+    Clipboard.setString(phone);
+    toast.show('Copied to clipboard!');
+  };
 
   return (
     <UI.Block
@@ -63,11 +71,13 @@ const MessageItem: React.FC<MessageItemProps> = ({
           </UI.Block>
         }
         longPress
-        destructiveIndex={3}
+        destructiveIndex={5}
         onClick={() => onClick && onClick(phone)}
         options={[
           'Voice Call',
           'Video Call',
+          'Copy Number',
+          'Add to Contacts',
           'View Profile',
           'Delete',
           'Cancle',
@@ -75,6 +85,8 @@ const MessageItem: React.FC<MessageItemProps> = ({
         actions={[
           onVoiceCall?.bind(null, phone) as any,
           onVideoCall?.bind(null, phone),
+          handleCopyNumber.bind(null, phone),
+          () => {},
           onViewProfile?.bind(null, phone),
           onDelete?.bind(null, phone),
         ]}

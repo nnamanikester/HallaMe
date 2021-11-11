@@ -12,6 +12,8 @@ import Slider from 'react-native-reanimated-slider';
 import {Value} from 'react-native-reanimated';
 import {useTheme} from '@/contexts/ThemeContext';
 import styles from './styles';
+import Clipboard from '@react-native-clipboard/clipboard';
+import {useToast} from 'react-native-toast-notifications';
 
 const isIOS = Platform.OS === 'ios';
 
@@ -52,6 +54,7 @@ const VoiceMail: React.FC<VoiceMailProps> = ({
   const [expanded, setExpanded] = React.useState(false);
   const [playing, setPlaying] = React.useState(false);
   const [currentValue] = React.useState(0);
+  const toast = useToast();
 
   React.useEffect(() => {
     LayoutAnimation.easeInEaseOut();
@@ -71,7 +74,10 @@ const VoiceMail: React.FC<VoiceMailProps> = ({
     setPlaying(!playing);
   };
 
-  const handleCopyNumber = () => {};
+  const handleCopyNumber = async (phone: string) => {
+    Clipboard.setString(phone);
+    toast.show('Copied to clipboard!');
+  };
 
   return (
     <>
@@ -123,11 +129,11 @@ const VoiceMail: React.FC<VoiceMailProps> = ({
                     'Cancel',
                   ]}
                   actions={[
+                    handleCopyNumber.bind(null, phone),
                     onArchive?.bind(null, phone),
                     onVoiceCall?.bind(null, phone) as any,
                     onVideoCall?.bind(null, phone),
                     onViewProfile?.bind(null, phone),
-                    handleCopyNumber.bind(null, phone),
                     onDelete?.bind(null, phone),
                   ]}
                 />

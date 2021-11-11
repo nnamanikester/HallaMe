@@ -3,10 +3,12 @@ import {Image} from 'react-native';
 import {useTheme} from '@/contexts/ThemeContext';
 import {formatPhone} from '@/utils';
 import {heightPercentageToDP as hd} from 'react-native-responsive-screen';
-import OptionsMenu from 'react-native-option-menu';
+import OptionsMenu from '../OptionMenu';
 import * as UI from '../common';
 import styles from './styles';
 import moment from 'moment';
+import Clipboard from '@react-native-clipboard/clipboard';
+import {useToast} from 'react-native-toast-notifications';
 
 // Date Format: mm/dd/yyyy H:i A
 
@@ -46,8 +48,12 @@ const RecentItem: React.FC<RecentItemProps> = ({
   onBlacklist,
 }) => {
   const {colors} = useTheme();
+  const toast = useToast();
 
-  const handleCopyNumber = (phone: string) => {};
+  const handleCopyNumber = async (phone: string) => {
+    Clipboard.setString(phone);
+    toast.show('Copied to clipboard!');
+  };
 
   return (
     <UI.Block row justify="space-between" style={styles.contactContainer}>
@@ -111,17 +117,18 @@ const RecentItem: React.FC<RecentItemProps> = ({
               </UI.Block>
             </UI.Block>
           }
-          destructiveIndex={4}
+          destructiveIndex={5}
           options={[
             'Voice Call',
             'Video Call',
             'Copy Number',
+            'Add to Contacts',
             'Add to Blacklist',
             'Delete',
             'Cancel',
           ]}
           actions={[
-            onVoiceCall?.bind(null, phone),
+            onVoiceCall?.bind(null, phone) as any,
             onVideoCall?.bind(null, phone),
             handleCopyNumber.bind(null, phone),
             onBlacklist?.bind(null, phone),
